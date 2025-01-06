@@ -4,14 +4,17 @@ FROM node:18
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
-# Копируем только package.json и package-lock.json
+# Копируем только файлы зависимостей (package.json и package-lock.json)
 COPY package*.json ./
 
 # Устанавливаем зависимости
-RUN npm install
+RUN npm install --production
 
-# Копируем остальные файлы проекта
+# Копируем остальные файлы проекта в контейнер
 COPY . .
+
+# Проверяем содержимое рабочей директории (опционально для отладки)
+RUN ls -la /app
 
 # Указываем порт для приложения
 EXPOSE 3000
